@@ -91,9 +91,29 @@ namespace HPC.ACM.API
         /// </param>
         /// <param name='disposeHttpClient'>
         /// True: will dispose the provided httpClient on calling HPCWebAPI.Dispose(). False: will not dispose provided httpClient</param>
-        protected HPCWebAPI(HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
+        public HPCWebAPI(HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
         {
             Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the HPCWebAPI class.
+        /// </summary>
+        /// <param name='baseUri'>
+        /// The base URI of the service.
+        /// <param name='httpClient'>
+        /// HttpClient to be used
+        /// </param>
+        /// <param name='disposeHttpClient'>
+        /// True: will dispose the provided httpClient on calling HPCWebAPI.Dispose(). False: will not dispose provided httpClient</param>
+        public HPCWebAPI(System.Uri baseUri, HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
+        {
+            if (baseUri == null)
+            {
+                throw new System.ArgumentNullException("baseUri");
+            }
+            Initialize();
+            BaseUri = baseUri;
         }
 
         /// <summary>
@@ -102,7 +122,7 @@ namespace HPC.ACM.API
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        protected HPCWebAPI(params DelegatingHandler[] handlers) : base(handlers)
+        public HPCWebAPI(params DelegatingHandler[] handlers) : base(handlers)
         {
             Initialize();
         }
@@ -116,7 +136,7 @@ namespace HPC.ACM.API
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        protected HPCWebAPI(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
+        public HPCWebAPI(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
         {
             Initialize();
         }
@@ -133,7 +153,7 @@ namespace HPC.ACM.API
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        protected HPCWebAPI(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
+        public HPCWebAPI(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (baseUri == null)
             {
@@ -157,7 +177,7 @@ namespace HPC.ACM.API
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        protected HPCWebAPI(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        public HPCWebAPI(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
             if (baseUri == null)
             {
