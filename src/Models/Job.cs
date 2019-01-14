@@ -38,7 +38,7 @@ namespace HPC.ACM.API.Models
         /// <param name="events">Events happened in the job</param>
         /// <param name="requeueCount">The number of times the job is
         /// requeued</param>
-        public Job(string type = default(string), int? id = default(int?), string name = default(string), string commandLine = default(string), DiagnoticTest diagnosticTest = default(DiagnoticTest), string state = default(string), IList<string> targetNodes = default(IList<string>), int? progress = default(int?), IList<EventModel> events = default(IList<EventModel>), int? requeueCount = default(int?), bool? failJobOnTaskFailure = default(bool?), System.DateTime? createdAt = default(System.DateTime?), System.DateTime? updatedAt = default(System.DateTime?))
+        public Job(string type = default(string), int? id = default(int?), string name = default(string), string commandLine = default(string), DiagnoticTest diagnosticTest = default(DiagnoticTest), string state = default(string), IList<string> targetNodes = default(IList<string>), double? progress = default(double?), IList<EventModel> events = default(IList<EventModel>), int? requeueCount = default(int?), bool? failJobOnTaskFailure = default(bool?), System.DateTime? createdAt = default(System.DateTime?), System.DateTime? updatedAt = default(System.DateTime?))
         {
             Type = type;
             Id = id;
@@ -108,7 +108,7 @@ namespace HPC.ACM.API.Models
         /// Gets or sets job progress
         /// </summary>
         [JsonProperty(PropertyName = "progress")]
-        public int? Progress { get; set; }
+        public double? Progress { get; set; }
 
         /// <summary>
         /// Gets or sets events happened in the job
