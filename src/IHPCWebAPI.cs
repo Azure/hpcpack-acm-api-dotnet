@@ -36,47 +36,6 @@ namespace HPC.ACM.API
         JsonSerializerSettings DeserializationSettings { get; }
 
         /// <summary>
-        /// Node id
-        /// </summary>
-        string Id { get; set; }
-
-        /// <summary>
-        /// Job id
-        /// </summary>
-        int Id1 { get; set; }
-
-        /// <summary>
-        /// Task id
-        /// </summary>
-        int TaskId { get; set; }
-
-        /// <summary>
-        /// Result key of a task
-        /// </summary>
-        string Key { get; set; }
-
-        /// <summary>
-        /// Requested number of objects
-        /// </summary>
-        int? Count { get; set; }
-
-        /// <summary>
-        /// The object id since which(but not included) the objects are
-        /// requested
-        /// </summary>
-        int? LastId { get; set; }
-
-        /// <summary>
-        /// Get the results in reverse order
-        /// </summary>
-        bool? Reverse { get; set; }
-
-        /// <summary>
-        /// The number of times a job/task is requeued
-        /// </summary>
-        int? RequeueCount { get; set; }
-
-        /// <summary>
         /// Subscription credentials which uniquely identify client
         /// subscription.
         /// </summary>
@@ -86,79 +45,102 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a list of nodes
         /// </summary>
+        /// <param name='lastId'>
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Node>>> GetNodesWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<Node>>> GetNodesWithHttpMessagesAsync(string lastId = default(string), int? count = 1000, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Node>> GetNodeWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Node>> GetNodeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// get metadata of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<NodeMetadata>> GetNodeMetadataWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<NodeMetadata>> GetNodeMetadataWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// get scheduled events of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<ScheduledEvents>> GetNodeScheduledEventsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<ScheduledEvents>> GetNodeScheduledEventsWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get events of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<EventModel>>> GetNodeEventsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<EventModel>>> GetNodeEventsWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get jobs of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<NodeJob>>> GetNodeJobsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<NodeJob>>> GetNodeJobsWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get metric history of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<NodeMetrics>> GetNodeMetricHistoryWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<NodeMetrics>> GetNodeMetricHistoryWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get node metric categories
@@ -178,24 +160,37 @@ namespace HPC.ACM.API
         /// </param>
         /// <param name='lastNodeId'>
         /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Metrics>> GetMetricsOfCategoryWithHttpMessagesAsync(string category, string lastNodeId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Metrics>> GetMetricsOfCategoryWithHttpMessagesAsync(string category, string lastNodeId = default(string), int? count = 1000, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a list of clusruns
         /// </summary>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are
+        /// requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='reverse'>
+        /// Get the results in reverse order
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Job>>> GetClusrunJobsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<Job>>> GetClusrunJobsWithHttpMessagesAsync(int? lastId = default(int?), int? count = 1000, bool? reverse = false, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Create a clusrun
@@ -213,17 +208,23 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Job>> GetClusrunJobWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Job>> GetClusrunJobWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Cancel a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='job'>
         /// </param>
         /// <param name='customHeaders'>
@@ -232,66 +233,100 @@ namespace HPC.ACM.API
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> CancelClusrunJobWithHttpMessagesAsync(JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> CancelClusrunJobWithHttpMessagesAsync(int id, JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get aggregation result of a clusrun job
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> GetClusrunJobAggregationResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> GetClusrunJobAggregationResultWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get tasks of a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are
+        /// requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='requeueCount'>
+        /// The number of times a job/task is requeued
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Models.Task>>> GetClusrunTasksWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<Models.Task>>> GetClusrunTasksWithHttpMessagesAsync(int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a task of a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Models.Task>> GetClusrunTaskWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Models.Task>> GetClusrunTaskWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a task result of a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<TaskResult>> GetClusrunTaskResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<TaskResult>> GetClusrunTaskResultWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get the whole output of a task
         /// </summary>
+        /// <param name='key'>
+        /// Result key of a task
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Stream>> GetClusrunOutputWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Stream>> GetClusrunOutputWithHttpMessagesAsync(string key, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get partial output of a task
         /// </summary>
+        /// <param name='key'>
+        /// Result key of a task
+        /// </param>
         /// <param name='offset'>
         /// The distance from the beginning of the output
         /// </param>
@@ -304,18 +339,28 @@ namespace HPC.ACM.API
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<TaskOutput>> GetClusrunOutputInPageWithHttpMessagesAsync(int? offset = default(int?), int? pageSize = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<TaskOutput>> GetClusrunOutputInPageWithHttpMessagesAsync(string key, int? offset = default(int?), int? pageSize = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a list of diagnostic test runs
         /// </summary>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are
+        /// requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='reverse'>
+        /// Get the results in reverse order
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Job>>> GetDiagnosticJobsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<Job>>> GetDiagnosticJobsWithHttpMessagesAsync(int? lastId = default(int?), int? count = 1000, bool? reverse = false, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Create a diagnostic test run
@@ -333,17 +378,23 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Job>> GetDiagnosticJobWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Job>> GetDiagnosticJobWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Cancel a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='job'>
         /// </param>
         /// <param name='customHeaders'>
@@ -352,51 +403,79 @@ namespace HPC.ACM.API
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> CancelDiagnosticJobWithHttpMessagesAsync(JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> CancelDiagnosticJobWithHttpMessagesAsync(int id, JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get aggregation result of a diagnostic job
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> GetDiagnosticJobAggregationResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> GetDiagnosticJobAggregationResultWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get tasks of a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are
+        /// requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='requeueCount'>
+        /// The number of times a job/task is requeued
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Models.Task>>> GetDiagnosticTasksWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<Models.Task>>> GetDiagnosticTasksWithHttpMessagesAsync(int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a task of a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Models.Task>> GetDiagnosticTaskWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Models.Task>> GetDiagnosticTaskWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a task result of a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<TaskResult>> GetDiagnosticTaskResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<TaskResult>> GetDiagnosticTaskResultWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get available diagnostic tests

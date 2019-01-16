@@ -24,9 +24,14 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<Node> GetNodes(this IHPCWebAPI operations)
+            /// <param name='lastId'>
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            public static IList<Node> GetNodes(this IHPCWebAPI operations, string lastId = default(string), int? count = 1000)
             {
-                return operations.GetNodesAsync().GetAwaiter().GetResult();
+                return operations.GetNodesAsync(lastId, count).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -35,12 +40,17 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='lastId'>
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<Node>> GetNodesAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<Node>> GetNodesAsync(this IHPCWebAPI operations, string lastId = default(string), int? count = 1000, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodesWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodesWithHttpMessagesAsync(lastId, count, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -52,9 +62,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static Node GetNode(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Node id
+            /// </param>
+            public static Node GetNode(this IHPCWebAPI operations, string id)
             {
-                return operations.GetNodeAsync().GetAwaiter().GetResult();
+                return operations.GetNodeAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -63,12 +76,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Node id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Node> GetNodeAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Node> GetNodeAsync(this IHPCWebAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodeWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodeWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -80,9 +96,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static NodeMetadata GetNodeMetadata(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Node id
+            /// </param>
+            public static NodeMetadata GetNodeMetadata(this IHPCWebAPI operations, string id)
             {
-                return operations.GetNodeMetadataAsync().GetAwaiter().GetResult();
+                return operations.GetNodeMetadataAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -91,12 +110,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Node id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<NodeMetadata> GetNodeMetadataAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<NodeMetadata> GetNodeMetadataAsync(this IHPCWebAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodeMetadataWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodeMetadataWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -108,9 +130,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static ScheduledEvents GetNodeScheduledEvents(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Node id
+            /// </param>
+            public static ScheduledEvents GetNodeScheduledEvents(this IHPCWebAPI operations, string id)
             {
-                return operations.GetNodeScheduledEventsAsync().GetAwaiter().GetResult();
+                return operations.GetNodeScheduledEventsAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -119,12 +144,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Node id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<ScheduledEvents> GetNodeScheduledEventsAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<ScheduledEvents> GetNodeScheduledEventsAsync(this IHPCWebAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodeScheduledEventsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodeScheduledEventsWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -136,9 +164,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<EventModel> GetNodeEvents(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Node id
+            /// </param>
+            public static IList<EventModel> GetNodeEvents(this IHPCWebAPI operations, string id)
             {
-                return operations.GetNodeEventsAsync().GetAwaiter().GetResult();
+                return operations.GetNodeEventsAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -147,12 +178,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Node id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<EventModel>> GetNodeEventsAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<EventModel>> GetNodeEventsAsync(this IHPCWebAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodeEventsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodeEventsWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -164,9 +198,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<NodeJob> GetNodeJobs(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Node id
+            /// </param>
+            public static IList<NodeJob> GetNodeJobs(this IHPCWebAPI operations, string id)
             {
-                return operations.GetNodeJobsAsync().GetAwaiter().GetResult();
+                return operations.GetNodeJobsAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -175,12 +212,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Node id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<NodeJob>> GetNodeJobsAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<NodeJob>> GetNodeJobsAsync(this IHPCWebAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodeJobsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodeJobsWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -192,9 +232,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static NodeMetrics GetNodeMetricHistory(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Node id
+            /// </param>
+            public static NodeMetrics GetNodeMetricHistory(this IHPCWebAPI operations, string id)
             {
-                return operations.GetNodeMetricHistoryAsync().GetAwaiter().GetResult();
+                return operations.GetNodeMetricHistoryAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -203,12 +246,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Node id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<NodeMetrics> GetNodeMetricHistoryAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<NodeMetrics> GetNodeMetricHistoryAsync(this IHPCWebAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetNodeMetricHistoryWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetNodeMetricHistoryWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -252,9 +298,12 @@ namespace HPC.ACM.API
             /// </param>
             /// <param name='lastNodeId'>
             /// </param>
-            public static Metrics GetMetricsOfCategory(this IHPCWebAPI operations, string category, string lastNodeId = default(string))
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            public static Metrics GetMetricsOfCategory(this IHPCWebAPI operations, string category, string lastNodeId = default(string), int? count = 1000)
             {
-                return operations.GetMetricsOfCategoryAsync(category, lastNodeId).GetAwaiter().GetResult();
+                return operations.GetMetricsOfCategoryAsync(category, lastNodeId, count).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -267,12 +316,15 @@ namespace HPC.ACM.API
             /// </param>
             /// <param name='lastNodeId'>
             /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Metrics> GetMetricsOfCategoryAsync(this IHPCWebAPI operations, string category, string lastNodeId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Metrics> GetMetricsOfCategoryAsync(this IHPCWebAPI operations, string category, string lastNodeId = default(string), int? count = 1000, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetMetricsOfCategoryWithHttpMessagesAsync(category, lastNodeId, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetMetricsOfCategoryWithHttpMessagesAsync(category, lastNodeId, count, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -284,9 +336,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<Job> GetClusrunJobs(this IHPCWebAPI operations)
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='reverse'>
+            /// Get the results in reverse order
+            /// </param>
+            public static IList<Job> GetClusrunJobs(this IHPCWebAPI operations, int? lastId = default(int?), int? count = 1000, bool? reverse = false)
             {
-                return operations.GetClusrunJobsAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunJobsAsync(lastId, count, reverse).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -295,12 +356,21 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='reverse'>
+            /// Get the results in reverse order
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<Job>> GetClusrunJobsAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<Job>> GetClusrunJobsAsync(this IHPCWebAPI operations, int? lastId = default(int?), int? count = 1000, bool? reverse = false, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunJobsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunJobsWithHttpMessagesAsync(lastId, count, reverse, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -344,9 +414,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static Job GetClusrunJob(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            public static Job GetClusrunJob(this IHPCWebAPI operations, int id)
             {
-                return operations.GetClusrunJobAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunJobAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -355,12 +428,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Job> GetClusrunJobAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Job> GetClusrunJobAsync(this IHPCWebAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunJobWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunJobWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -372,11 +448,14 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
             /// <param name='job'>
             /// </param>
-            public static void CancelClusrunJob(this IHPCWebAPI operations, JobUpdate job = default(JobUpdate))
+            public static void CancelClusrunJob(this IHPCWebAPI operations, int id, JobUpdate job = default(JobUpdate))
             {
-                operations.CancelClusrunJobAsync(job).GetAwaiter().GetResult();
+                operations.CancelClusrunJobAsync(id, job).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -385,14 +464,17 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
             /// <param name='job'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async System.Threading.Tasks.Task CancelClusrunJobAsync(this IHPCWebAPI operations, JobUpdate job = default(JobUpdate), CancellationToken cancellationToken = default(CancellationToken))
+            public static async System.Threading.Tasks.Task CancelClusrunJobAsync(this IHPCWebAPI operations, int id, JobUpdate job = default(JobUpdate), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.CancelClusrunJobWithHttpMessagesAsync(job, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.CancelClusrunJobWithHttpMessagesAsync(id, job, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <summary>
@@ -401,9 +483,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static object GetClusrunJobAggregationResult(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            public static object GetClusrunJobAggregationResult(this IHPCWebAPI operations, int id)
             {
-                return operations.GetClusrunJobAggregationResultAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunJobAggregationResultAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -411,13 +496,16 @@ namespace HPC.ACM.API
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
+            /// </param>
+            /// <param name='id'>
+            /// Job id
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> GetClusrunJobAggregationResultAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> GetClusrunJobAggregationResultAsync(this IHPCWebAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunJobAggregationResultWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunJobAggregationResultWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -429,9 +517,21 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<Models.Task> GetClusrunTasks(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='requeueCount'>
+            /// The number of times a job/task is requeued
+            /// </param>
+            public static IList<Models.Task> GetClusrunTasks(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?))
             {
-                return operations.GetClusrunTasksAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunTasksAsync(id, lastId, count, requeueCount).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -440,12 +540,24 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='requeueCount'>
+            /// The number of times a job/task is requeued
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<Models.Task>> GetClusrunTasksAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<Models.Task>> GetClusrunTasksAsync(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunTasksWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunTasksWithHttpMessagesAsync(id, lastId, count, requeueCount, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -457,9 +569,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static Models.Task GetClusrunTask(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
+            public static Models.Task GetClusrunTask(this IHPCWebAPI operations, int id, int taskId)
             {
-                return operations.GetClusrunTaskAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunTaskAsync(id, taskId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -468,12 +586,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Models.Task> GetClusrunTaskAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Models.Task> GetClusrunTaskAsync(this IHPCWebAPI operations, int id, int taskId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunTaskWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunTaskWithHttpMessagesAsync(id, taskId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -485,9 +609,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static TaskResult GetClusrunTaskResult(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
+            public static TaskResult GetClusrunTaskResult(this IHPCWebAPI operations, int id, int taskId)
             {
-                return operations.GetClusrunTaskResultAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunTaskResultAsync(id, taskId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -496,12 +626,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<TaskResult> GetClusrunTaskResultAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<TaskResult> GetClusrunTaskResultAsync(this IHPCWebAPI operations, int id, int taskId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunTaskResultWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunTaskResultWithHttpMessagesAsync(id, taskId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -513,9 +649,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static Stream GetClusrunOutput(this IHPCWebAPI operations)
+            /// <param name='key'>
+            /// Result key of a task
+            /// </param>
+            public static Stream GetClusrunOutput(this IHPCWebAPI operations, string key)
             {
-                return operations.GetClusrunOutputAsync().GetAwaiter().GetResult();
+                return operations.GetClusrunOutputAsync(key).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -524,12 +663,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='key'>
+            /// Result key of a task
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Stream> GetClusrunOutputAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Stream> GetClusrunOutputAsync(this IHPCWebAPI operations, string key, CancellationToken cancellationToken = default(CancellationToken))
             {
-                var _result = await operations.GetClusrunOutputWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false);
+                var _result = await operations.GetClusrunOutputWithHttpMessagesAsync(key, null, cancellationToken).ConfigureAwait(false);
                 _result.Request.Dispose();
                 return _result.Body;
             }
@@ -540,15 +682,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='key'>
+            /// Result key of a task
+            /// </param>
             /// <param name='offset'>
             /// The distance from the beginning of the output
             /// </param>
             /// <param name='pageSize'>
             /// The size of requested piece of output
             /// </param>
-            public static TaskOutput GetClusrunOutputInPage(this IHPCWebAPI operations, int? offset = default(int?), int? pageSize = default(int?))
+            public static TaskOutput GetClusrunOutputInPage(this IHPCWebAPI operations, string key, int? offset = default(int?), int? pageSize = default(int?))
             {
-                return operations.GetClusrunOutputInPageAsync(offset, pageSize).GetAwaiter().GetResult();
+                return operations.GetClusrunOutputInPageAsync(key, offset, pageSize).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -556,6 +701,9 @@ namespace HPC.ACM.API
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
+            /// </param>
+            /// <param name='key'>
+            /// Result key of a task
             /// </param>
             /// <param name='offset'>
             /// The distance from the beginning of the output
@@ -566,9 +714,9 @@ namespace HPC.ACM.API
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<TaskOutput> GetClusrunOutputInPageAsync(this IHPCWebAPI operations, int? offset = default(int?), int? pageSize = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<TaskOutput> GetClusrunOutputInPageAsync(this IHPCWebAPI operations, string key, int? offset = default(int?), int? pageSize = default(int?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetClusrunOutputInPageWithHttpMessagesAsync(offset, pageSize, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetClusrunOutputInPageWithHttpMessagesAsync(key, offset, pageSize, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -580,9 +728,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<Job> GetDiagnosticJobs(this IHPCWebAPI operations)
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='reverse'>
+            /// Get the results in reverse order
+            /// </param>
+            public static IList<Job> GetDiagnosticJobs(this IHPCWebAPI operations, int? lastId = default(int?), int? count = 1000, bool? reverse = false)
             {
-                return operations.GetDiagnosticJobsAsync().GetAwaiter().GetResult();
+                return operations.GetDiagnosticJobsAsync(lastId, count, reverse).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -591,12 +748,21 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='reverse'>
+            /// Get the results in reverse order
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<Job>> GetDiagnosticJobsAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<Job>> GetDiagnosticJobsAsync(this IHPCWebAPI operations, int? lastId = default(int?), int? count = 1000, bool? reverse = false, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetDiagnosticJobsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetDiagnosticJobsWithHttpMessagesAsync(lastId, count, reverse, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -640,9 +806,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static Job GetDiagnosticJob(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            public static Job GetDiagnosticJob(this IHPCWebAPI operations, int id)
             {
-                return operations.GetDiagnosticJobAsync().GetAwaiter().GetResult();
+                return operations.GetDiagnosticJobAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -651,12 +820,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Job> GetDiagnosticJobAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Job> GetDiagnosticJobAsync(this IHPCWebAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetDiagnosticJobWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetDiagnosticJobWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -668,11 +840,14 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
             /// <param name='job'>
             /// </param>
-            public static void CancelDiagnosticJob(this IHPCWebAPI operations, JobUpdate job = default(JobUpdate))
+            public static void CancelDiagnosticJob(this IHPCWebAPI operations, int id, JobUpdate job = default(JobUpdate))
             {
-                operations.CancelDiagnosticJobAsync(job).GetAwaiter().GetResult();
+                operations.CancelDiagnosticJobAsync(id, job).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -681,14 +856,17 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
             /// <param name='job'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async System.Threading.Tasks.Task CancelDiagnosticJobAsync(this IHPCWebAPI operations, JobUpdate job = default(JobUpdate), CancellationToken cancellationToken = default(CancellationToken))
+            public static async System.Threading.Tasks.Task CancelDiagnosticJobAsync(this IHPCWebAPI operations, int id, JobUpdate job = default(JobUpdate), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.CancelDiagnosticJobWithHttpMessagesAsync(job, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.CancelDiagnosticJobWithHttpMessagesAsync(id, job, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <summary>
@@ -697,9 +875,12 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static object GetDiagnosticJobAggregationResult(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            public static object GetDiagnosticJobAggregationResult(this IHPCWebAPI operations, int id)
             {
-                return operations.GetDiagnosticJobAggregationResultAsync().GetAwaiter().GetResult();
+                return operations.GetDiagnosticJobAggregationResultAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -707,13 +888,16 @@ namespace HPC.ACM.API
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
+            /// </param>
+            /// <param name='id'>
+            /// Job id
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> GetDiagnosticJobAggregationResultAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<object> GetDiagnosticJobAggregationResultAsync(this IHPCWebAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetDiagnosticJobAggregationResultWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetDiagnosticJobAggregationResultWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -725,9 +909,21 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static IList<Models.Task> GetDiagnosticTasks(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='requeueCount'>
+            /// The number of times a job/task is requeued
+            /// </param>
+            public static IList<Models.Task> GetDiagnosticTasks(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?))
             {
-                return operations.GetDiagnosticTasksAsync().GetAwaiter().GetResult();
+                return operations.GetDiagnosticTasksAsync(id, lastId, count, requeueCount).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -736,12 +932,24 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='requeueCount'>
+            /// The number of times a job/task is requeued
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<Models.Task>> GetDiagnosticTasksAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<Models.Task>> GetDiagnosticTasksAsync(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetDiagnosticTasksWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetDiagnosticTasksWithHttpMessagesAsync(id, lastId, count, requeueCount, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -753,9 +961,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static Models.Task GetDiagnosticTask(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
+            public static Models.Task GetDiagnosticTask(this IHPCWebAPI operations, int id, int taskId)
             {
-                return operations.GetDiagnosticTaskAsync().GetAwaiter().GetResult();
+                return operations.GetDiagnosticTaskAsync(id, taskId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -764,12 +978,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Models.Task> GetDiagnosticTaskAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Models.Task> GetDiagnosticTaskAsync(this IHPCWebAPI operations, int id, int taskId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetDiagnosticTaskWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetDiagnosticTaskWithHttpMessagesAsync(id, taskId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -781,9 +1001,15 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            public static TaskResult GetDiagnosticTaskResult(this IHPCWebAPI operations)
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
+            public static TaskResult GetDiagnosticTaskResult(this IHPCWebAPI operations, int id, int taskId)
             {
-                return operations.GetDiagnosticTaskResultAsync().GetAwaiter().GetResult();
+                return operations.GetDiagnosticTaskResultAsync(id, taskId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -792,12 +1018,18 @@ namespace HPC.ACM.API
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='taskId'>
+            /// Task id
+            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<TaskResult> GetDiagnosticTaskResultAsync(this IHPCWebAPI operations, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<TaskResult> GetDiagnosticTaskResultAsync(this IHPCWebAPI operations, int id, int taskId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetDiagnosticTaskResultWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetDiagnosticTaskResultWithHttpMessagesAsync(id, taskId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

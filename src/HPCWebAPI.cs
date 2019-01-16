@@ -39,46 +39,6 @@ namespace HPC.ACM.API
         public JsonSerializerSettings DeserializationSettings { get; private set; }
 
         /// <summary>
-        /// Node id
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Job id
-        /// </summary>
-        public int Id1 { get; set; }
-
-        /// <summary>
-        /// Task id
-        /// </summary>
-        public int TaskId { get; set; }
-
-        /// <summary>
-        /// Result key of a task
-        /// </summary>
-        public string Key { get; set; }
-
-        /// <summary>
-        /// Requested number of objects
-        /// </summary>
-        public int? Count { get; set; }
-
-        /// <summary>
-        /// The object id since which(but not included) the objects are requested
-        /// </summary>
-        public int? LastId { get; set; }
-
-        /// <summary>
-        /// Get the results in reverse order
-        /// </summary>
-        public bool? Reverse { get; set; }
-
-        /// <summary>
-        /// The number of times a job/task is requeued
-        /// </summary>
-        public int? RequeueCount { get; set; }
-
-        /// <summary>
         /// Subscription credentials which uniquely identify client subscription.
         /// </summary>
         public ServiceClientCredentials Credentials { get; private set; }
@@ -345,8 +305,6 @@ namespace HPC.ACM.API
         private void Initialize()
         {
             BaseUri = new System.Uri("https://localhost/v1");
-            Count = 1000;
-            Reverse = false;
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
@@ -377,6 +335,11 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a list of nodes
         /// </summary>
+        /// <param name='lastId'>
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -392,7 +355,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<Node>>> GetNodesWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<Node>>> GetNodesWithHttpMessagesAsync(string lastId = default(string), int? count = 1000, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -401,6 +364,8 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("lastId", lastId);
+                tracingParameters.Add("count", count);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNodes", tracingParameters);
             }
@@ -408,13 +373,13 @@ namespace HPC.ACM.API
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes").ToString();
             List<string> _queryParameters = new List<string>();
-            if (LastId != null)
+            if (lastId != null)
             {
-                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(LastId, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(lastId)));
             }
-            if (Count != null)
+            if (count != null)
             {
-                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Count, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(count, SerializationSettings).Trim('"'))));
             }
             if (_queryParameters.Count > 0)
             {
@@ -516,6 +481,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -537,11 +505,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Node>> GetNodeWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Node>> GetNodeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Id == null)
+            if (id == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Id");
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -550,13 +518,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNode", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes/{id}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(Id));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -653,6 +622,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// get metadata of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -674,11 +646,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<NodeMetadata>> GetNodeMetadataWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<NodeMetadata>> GetNodeMetadataWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Id == null)
+            if (id == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Id");
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -687,13 +659,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNodeMetadata", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes/{id}/metadata").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(Id));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -790,6 +763,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// get scheduled events of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -811,11 +787,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<ScheduledEvents>> GetNodeScheduledEventsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<ScheduledEvents>> GetNodeScheduledEventsWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Id == null)
+            if (id == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Id");
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -824,13 +800,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNodeScheduledEvents", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes/{id}/scheduledEvents").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(Id));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -927,6 +904,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get events of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -948,11 +928,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<EventModel>>> GetNodeEventsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<EventModel>>> GetNodeEventsWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Id == null)
+            if (id == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Id");
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -961,13 +941,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNodeEvents", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes/{id}/events").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(Id));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1064,6 +1045,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get jobs of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -1085,11 +1069,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<NodeJob>>> GetNodeJobsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<NodeJob>>> GetNodeJobsWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Id == null)
+            if (id == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Id");
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1098,13 +1082,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNodeJobs", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes/{id}/jobs").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(Id));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1201,6 +1186,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get metric history of a node
         /// </summary>
+        /// <param name='id'>
+        /// Node id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -1222,11 +1210,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<NodeMetrics>> GetNodeMetricHistoryWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<NodeMetrics>> GetNodeMetricHistoryWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Id == null)
+            if (id == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Id");
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1235,13 +1223,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetNodeMetricHistory", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "nodes/{id}/metricHistory").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(Id));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(id));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -1468,6 +1457,9 @@ namespace HPC.ACM.API
         /// </param>
         /// <param name='lastNodeId'>
         /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -1489,7 +1481,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Metrics>> GetMetricsOfCategoryWithHttpMessagesAsync(string category, string lastNodeId = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Metrics>> GetMetricsOfCategoryWithHttpMessagesAsync(string category, string lastNodeId = default(string), int? count = 1000, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (category == null)
             {
@@ -1504,6 +1496,7 @@ namespace HPC.ACM.API
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("category", category);
                 tracingParameters.Add("lastNodeId", lastNodeId);
+                tracingParameters.Add("count", count);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetMetricsOfCategory", tracingParameters);
             }
@@ -1516,9 +1509,9 @@ namespace HPC.ACM.API
             {
                 _queryParameters.Add(string.Format("lastNodeId={0}", System.Uri.EscapeDataString(lastNodeId)));
             }
-            if (Count != null)
+            if (count != null)
             {
-                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Count, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(count, SerializationSettings).Trim('"'))));
             }
             if (_queryParameters.Count > 0)
             {
@@ -1620,6 +1613,15 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a list of clusruns
         /// </summary>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='reverse'>
+        /// Get the results in reverse order
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -1635,7 +1637,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<Job>>> GetClusrunJobsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<Job>>> GetClusrunJobsWithHttpMessagesAsync(int? lastId = default(int?), int? count = 1000, bool? reverse = false, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1644,6 +1646,9 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("lastId", lastId);
+                tracingParameters.Add("count", count);
+                tracingParameters.Add("reverse", reverse);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunJobs", tracingParameters);
             }
@@ -1651,17 +1656,17 @@ namespace HPC.ACM.API
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun").ToString();
             List<string> _queryParameters = new List<string>();
-            if (LastId != null)
+            if (lastId != null)
             {
-                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(LastId, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(lastId, SerializationSettings).Trim('"'))));
             }
-            if (Count != null)
+            if (count != null)
             {
-                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Count, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(count, SerializationSettings).Trim('"'))));
             }
-            if (Reverse != null)
+            if (reverse != null)
             {
-                _queryParameters.Add(string.Format("reverse={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Reverse, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("reverse={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(reverse, SerializationSettings).Trim('"'))));
             }
             if (_queryParameters.Count > 0)
             {
@@ -1911,6 +1916,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -1926,7 +1934,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Job>> GetClusrunJobWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Job>> GetClusrunJobWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1935,13 +1943,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunJob", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun/{id}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -2038,6 +2047,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Cancel a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='job'>
         /// </param>
         /// <param name='customHeaders'>
@@ -2052,7 +2064,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> CancelClusrunJobWithHttpMessagesAsync(JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> CancelClusrunJobWithHttpMessagesAsync(int id, JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2062,13 +2074,14 @@ namespace HPC.ACM.API
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("job", job);
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "CancelClusrunJob", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun/{id}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -2153,6 +2166,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get aggregation result of a clusrun job
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -2168,7 +2184,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> GetClusrunJobAggregationResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetClusrunJobAggregationResultWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2177,13 +2193,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunJobAggregationResult", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun/{id}/aggregationResult").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -2280,6 +2297,18 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get tasks of a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='requeueCount'>
+        /// The number of times a job/task is requeued
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -2295,7 +2324,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<Models.Task>>> GetClusrunTasksWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<Models.Task>>> GetClusrunTasksWithHttpMessagesAsync(int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2304,25 +2333,29 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
+                tracingParameters.Add("lastId", lastId);
+                tracingParameters.Add("count", count);
+                tracingParameters.Add("requeueCount", requeueCount);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunTasks", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun/{id}/tasks").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             List<string> _queryParameters = new List<string>();
-            if (LastId != null)
+            if (lastId != null)
             {
-                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(LastId, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(lastId, SerializationSettings).Trim('"'))));
             }
-            if (Count != null)
+            if (count != null)
             {
-                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Count, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(count, SerializationSettings).Trim('"'))));
             }
-            if (RequeueCount != null)
+            if (requeueCount != null)
             {
-                _queryParameters.Add(string.Format("requeueCount={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(RequeueCount, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("requeueCount={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(requeueCount, SerializationSettings).Trim('"'))));
             }
             if (_queryParameters.Count > 0)
             {
@@ -2424,6 +2457,12 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a task of a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -2439,7 +2478,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Models.Task>> GetClusrunTaskWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Models.Task>> GetClusrunTaskWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2448,14 +2487,16 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
+                tracingParameters.Add("taskId", taskId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunTask", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun/{id}/tasks/{taskId}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
-            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(TaskId, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(taskId, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -2552,6 +2593,12 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a task result of a clusrun
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -2567,7 +2614,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<TaskResult>> GetClusrunTaskResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<TaskResult>> GetClusrunTaskResultWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2576,14 +2623,16 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
+                tracingParameters.Add("taskId", taskId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunTaskResult", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "clusrun/{id}/tasks/{taskId}/result").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
-            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(TaskId, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(taskId, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -2680,6 +2729,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get the whole output of a task
         /// </summary>
+        /// <param name='key'>
+        /// Result key of a task
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -2701,11 +2753,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Stream>> GetClusrunOutputWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Stream>> GetClusrunOutputWithHttpMessagesAsync(string key, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Key == null)
+            if (key == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Key");
+                throw new ValidationException(ValidationRules.CannotBeNull, "key");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2714,13 +2766,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("key", key);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetClusrunOutput", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "output/clusrun/{key}/raw").ToString();
-            _url = _url.Replace("{key}", System.Uri.EscapeDataString(Key));
+            _url = _url.Replace("{key}", System.Uri.EscapeDataString(key));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -2804,6 +2857,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get partial output of a task
         /// </summary>
+        /// <param name='key'>
+        /// Result key of a task
+        /// </param>
         /// <param name='offset'>
         /// The distance from the beginning of the output
         /// </param>
@@ -2831,11 +2887,11 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<TaskOutput>> GetClusrunOutputInPageWithHttpMessagesAsync(int? offset = default(int?), int? pageSize = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<TaskOutput>> GetClusrunOutputInPageWithHttpMessagesAsync(string key, int? offset = default(int?), int? pageSize = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (Key == null)
+            if (key == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "this.Key");
+                throw new ValidationException(ValidationRules.CannotBeNull, "key");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2844,6 +2900,7 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("key", key);
                 tracingParameters.Add("offset", offset);
                 tracingParameters.Add("pageSize", pageSize);
                 tracingParameters.Add("cancellationToken", cancellationToken);
@@ -2852,7 +2909,7 @@ namespace HPC.ACM.API
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "output/clusrun/{key}/page").ToString();
-            _url = _url.Replace("{key}", System.Uri.EscapeDataString(Key));
+            _url = _url.Replace("{key}", System.Uri.EscapeDataString(key));
             List<string> _queryParameters = new List<string>();
             if (offset != null)
             {
@@ -2962,6 +3019,15 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a list of diagnostic test runs
         /// </summary>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='reverse'>
+        /// Get the results in reverse order
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -2977,7 +3043,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<Job>>> GetDiagnosticJobsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<Job>>> GetDiagnosticJobsWithHttpMessagesAsync(int? lastId = default(int?), int? count = 1000, bool? reverse = false, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2986,6 +3052,9 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("lastId", lastId);
+                tracingParameters.Add("count", count);
+                tracingParameters.Add("reverse", reverse);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetDiagnosticJobs", tracingParameters);
             }
@@ -2993,17 +3062,17 @@ namespace HPC.ACM.API
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics").ToString();
             List<string> _queryParameters = new List<string>();
-            if (LastId != null)
+            if (lastId != null)
             {
-                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(LastId, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(lastId, SerializationSettings).Trim('"'))));
             }
-            if (Count != null)
+            if (count != null)
             {
-                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Count, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(count, SerializationSettings).Trim('"'))));
             }
-            if (Reverse != null)
+            if (reverse != null)
             {
-                _queryParameters.Add(string.Format("reverse={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Reverse, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("reverse={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(reverse, SerializationSettings).Trim('"'))));
             }
             if (_queryParameters.Count > 0)
             {
@@ -3253,6 +3322,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -3268,7 +3340,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Job>> GetDiagnosticJobWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Job>> GetDiagnosticJobWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3277,13 +3349,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetDiagnosticJob", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics/{id}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -3380,6 +3453,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Cancel a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='job'>
         /// </param>
         /// <param name='customHeaders'>
@@ -3394,7 +3470,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> CancelDiagnosticJobWithHttpMessagesAsync(JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> CancelDiagnosticJobWithHttpMessagesAsync(int id, JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3404,13 +3480,14 @@ namespace HPC.ACM.API
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("job", job);
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "CancelDiagnosticJob", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics/{id}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -3495,6 +3572,9 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get aggregation result of a diagnostic job
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -3510,7 +3590,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> GetDiagnosticJobAggregationResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetDiagnosticJobAggregationResultWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3519,13 +3599,14 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetDiagnosticJobAggregationResult", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics/{id}/aggregationResult").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -3622,6 +3703,18 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get tasks of a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='requeueCount'>
+        /// The number of times a job/task is requeued
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -3637,7 +3730,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<Models.Task>>> GetDiagnosticTasksWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<Models.Task>>> GetDiagnosticTasksWithHttpMessagesAsync(int id, int? lastId = default(int?), int? count = 1000, int? requeueCount = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3646,25 +3739,29 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
+                tracingParameters.Add("lastId", lastId);
+                tracingParameters.Add("count", count);
+                tracingParameters.Add("requeueCount", requeueCount);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetDiagnosticTasks", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics/{id}/tasks").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
             List<string> _queryParameters = new List<string>();
-            if (LastId != null)
+            if (lastId != null)
             {
-                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(LastId, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("lastId={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(lastId, SerializationSettings).Trim('"'))));
             }
-            if (Count != null)
+            if (count != null)
             {
-                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Count, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("count={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(count, SerializationSettings).Trim('"'))));
             }
-            if (RequeueCount != null)
+            if (requeueCount != null)
             {
-                _queryParameters.Add(string.Format("requeueCount={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(RequeueCount, SerializationSettings).Trim('"'))));
+                _queryParameters.Add(string.Format("requeueCount={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(requeueCount, SerializationSettings).Trim('"'))));
             }
             if (_queryParameters.Count > 0)
             {
@@ -3766,6 +3863,12 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a task of a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -3781,7 +3884,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Models.Task>> GetDiagnosticTaskWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Models.Task>> GetDiagnosticTaskWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3790,14 +3893,16 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
+                tracingParameters.Add("taskId", taskId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetDiagnosticTask", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics/{id}/tasks/{taskId}").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
-            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(TaskId, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(taskId, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -3894,6 +3999,12 @@ namespace HPC.ACM.API
         /// <summary>
         /// Get a task result of a diagnostic test run
         /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='taskId'>
+        /// Task id
+        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -3909,7 +4020,7 @@ namespace HPC.ACM.API
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<TaskResult>> GetDiagnosticTaskResultWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<TaskResult>> GetDiagnosticTaskResultWithHttpMessagesAsync(int id, int taskId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3918,14 +4029,16 @@ namespace HPC.ACM.API
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("id", id);
+                tracingParameters.Add("taskId", taskId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "GetDiagnosticTaskResult", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "diagnostics/{id}/tasks/{taskId}/result").ToString();
-            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(Id, SerializationSettings).Trim('"')));
-            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(TaskId, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{id}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"')));
+            _url = _url.Replace("{taskId}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(taskId, SerializationSettings).Trim('"')));
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
