@@ -26,8 +26,9 @@ namespace HPC.ACM.API.Models
         /// 'Warning', 'Alert'</param>
         /// <param name="source">Possible values include: 'Node', 'Cluster',
         /// 'Job', 'Scheduler'</param>
-        public EventModel(string content = default(string), System.DateTime? time = default(System.DateTime?), string type = default(string), string source = default(string))
+        public EventModel(long? id = default(long?), string content = default(string), System.DateTime? time = default(System.DateTime?), string type = default(string), string source = default(string))
         {
+            Id = id;
             Content = content;
             Time = time;
             Type = type;
@@ -39,6 +40,11 @@ namespace HPC.ACM.API.Models
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "id")]
+        public long? Id { get; set; }
 
         /// <summary>
         /// </summary>

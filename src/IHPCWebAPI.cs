@@ -236,6 +236,27 @@ namespace HPC.ACM.API
         Task<HttpOperationResponse> CancelClusrunJobWithHttpMessagesAsync(int id, JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Get clusrun events
+        /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are
+        /// requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<IList<EventModel>>> GetClusrunEventsWithHttpMessagesAsync(int id, int? lastId = default(int?), int? count = 1000, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Get aggregation result of a clusrun job
         /// </summary>
         /// <param name='id'>
@@ -404,6 +425,27 @@ namespace HPC.ACM.API
         /// The cancellation token.
         /// </param>
         Task<HttpOperationResponse> CancelDiagnosticJobWithHttpMessagesAsync(int id, JobUpdate job = default(JobUpdate), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Get events of a diagnostic test run
+        /// </summary>
+        /// <param name='id'>
+        /// Job id
+        /// </param>
+        /// <param name='lastId'>
+        /// The object id since which(but not included) the objects are
+        /// requested
+        /// </param>
+        /// <param name='count'>
+        /// Requested number of objects
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<IList<EventModel>>> GetDiagnosticEventsWithHttpMessagesAsync(int id, int? lastId = default(int?), int? count = 1000, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get aggregation result of a diagnostic job

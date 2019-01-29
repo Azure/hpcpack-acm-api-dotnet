@@ -478,6 +478,52 @@ namespace HPC.ACM.API
             }
 
             /// <summary>
+            /// Get clusrun events
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            public static IList<EventModel> GetClusrunEvents(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000)
+            {
+                return operations.GetClusrunEventsAsync(id, lastId, count).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Get clusrun events
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<EventModel>> GetClusrunEventsAsync(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetClusrunEventsWithHttpMessagesAsync(id, lastId, count, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
             /// Get aggregation result of a clusrun job
             /// </summary>
             /// <param name='operations'>
@@ -867,6 +913,52 @@ namespace HPC.ACM.API
             public static async System.Threading.Tasks.Task CancelDiagnosticJobAsync(this IHPCWebAPI operations, int id, JobUpdate job = default(JobUpdate), CancellationToken cancellationToken = default(CancellationToken))
             {
                 (await operations.CancelDiagnosticJobWithHttpMessagesAsync(id, job, null, cancellationToken).ConfigureAwait(false)).Dispose();
+            }
+
+            /// <summary>
+            /// Get events of a diagnostic test run
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            public static IList<EventModel> GetDiagnosticEvents(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000)
+            {
+                return operations.GetDiagnosticEventsAsync(id, lastId, count).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Get events of a diagnostic test run
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='id'>
+            /// Job id
+            /// </param>
+            /// <param name='lastId'>
+            /// The object id since which(but not included) the objects are requested
+            /// </param>
+            /// <param name='count'>
+            /// Requested number of objects
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<EventModel>> GetDiagnosticEventsAsync(this IHPCWebAPI operations, int id, int? lastId = default(int?), int? count = 1000, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetDiagnosticEventsWithHttpMessagesAsync(id, lastId, count, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <summary>

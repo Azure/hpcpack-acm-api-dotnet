@@ -35,10 +35,9 @@ namespace HPC.ACM.API.Models
         /// 'Finished', 'Finishing', 'Canceling', 'Failed', 'Canceled'</param>
         /// <param name="targetNodes">Nodes on which the job runs</param>
         /// <param name="progress">Job progress</param>
-        /// <param name="events">Events happened in the job</param>
         /// <param name="requeueCount">The number of times the job is
         /// requeued</param>
-        public Job(string type = default(string), int? id = default(int?), string name = default(string), string commandLine = default(string), DiagnoticTest diagnosticTest = default(DiagnoticTest), string state = default(string), IList<string> targetNodes = default(IList<string>), double? progress = default(double?), IList<EventModel> events = default(IList<EventModel>), int? requeueCount = default(int?), bool? failJobOnTaskFailure = default(bool?), System.DateTime? createdAt = default(System.DateTime?), System.DateTime? updatedAt = default(System.DateTime?))
+        public Job(string type = default(string), int? id = default(int?), string name = default(string), string commandLine = default(string), DiagnoticTest diagnosticTest = default(DiagnoticTest), string state = default(string), IList<string> targetNodes = default(IList<string>), double? progress = default(double?), int? requeueCount = default(int?), bool? failJobOnTaskFailure = default(bool?), System.DateTime? createdAt = default(System.DateTime?), System.DateTime? updatedAt = default(System.DateTime?))
         {
             Type = type;
             Id = id;
@@ -48,7 +47,6 @@ namespace HPC.ACM.API.Models
             State = state;
             TargetNodes = targetNodes;
             Progress = progress;
-            Events = events;
             RequeueCount = requeueCount;
             FailJobOnTaskFailure = failJobOnTaskFailure;
             CreatedAt = createdAt;
@@ -109,12 +107,6 @@ namespace HPC.ACM.API.Models
         /// </summary>
         [JsonProperty(PropertyName = "progress")]
         public double? Progress { get; set; }
-
-        /// <summary>
-        /// Gets or sets events happened in the job
-        /// </summary>
-        [JsonProperty(PropertyName = "events")]
-        public IList<EventModel> Events { get; set; }
 
         /// <summary>
         /// Gets or sets the number of times the job is requeued
